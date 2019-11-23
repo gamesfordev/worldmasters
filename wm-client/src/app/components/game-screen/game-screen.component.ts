@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 // import * as topojsonData from '../topojson.json';
 import * as topojson from 'topojson';
 import * as d3 from 'd3';
-import * as mapData from './testData';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
+import {DataService} from 'src/app/service/data.service';
 
 const width = 1200;
 const height = 800;
@@ -26,14 +26,15 @@ export class GameScreenComponent implements OnInit {
 
   g: any;
   sessionActive = true;
+  mapValues;
+
   players = [];
-  constructor() {
-  }
+  constructor(private socket: Socket, private router: Router, private dataService: DataService) { }
   ngOnInit() {
-	this.loadData();
-	this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
-    this.socket.on('receiveMapData', (mapData: any) => {this.receiveMapData(mapData)});
-    this.socket.on('sessionEnded', (mapData: any) => {this.sessionEnded(mapData)});
+      this.loadData();
+      this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
+      this.socket.on('receiveMapData', (mapData: any) => {this.receiveMapData(mapData)});
+      this.socket.on('sessionEnded', (mapData: any) => {this.sessionEnded(mapData)});
   }
 
   loadData() {
@@ -59,7 +60,24 @@ export class GameScreenComponent implements OnInit {
             // console.log(val);
             return val;
           })
-          .on('mouseover', this.onHover)
+          .on('mouseover', (d) => {
+              const country = this.dataService.mapData.find((val) => {
+              // console.log(val.countryCodeIso2);
+                  return val.countryCodeIso2 === d.properties.ISO_A2
+              });
+              tooltipTest.classed('hide', false);
+              if (country) {
+              tooltipTest.select('.countryName').text(country.country);
+              tooltipTest.select('.totalUsage').text(country.totalUsage);
+              //   tooltipTest.select('.totalUsage').text(country.totalUsage);
+              } else {
+                tooltipTest.select('.countryName').text(d.properties.NAME);
+                tooltipTest.select('.totalUsage').text('');
+              }
+              tooltipTest
+                .style('top', (d3.event.layerY + 5) + 'px')
+                .style('left', (d3.event.layerX + 5) + 'px');
+          })
           .on('mouseout', this.onExit)
           .attr('d', path);
 
@@ -67,25 +85,25 @@ export class GameScreenComponent implements OnInit {
         g.selectAll('g')
           .data(countries)
           .enter()
-          .append("g")
-          .attr("class", 'countryLabel')
+          .append('g')
+          .attr('class', 'countryLabel')
 
-        const countryInfo = g.selectAll(".countryInfo")
-          .data(mapData.testData)
+        const countryInfo = g.selectAll('.countryInfo')
+          .data(this.dataService.mapData)
           .enter()
-          .append("g")
-          .attr("class", 'countryInfo');
+          .append('g')
+          .attr('class', 'countryInfo');
 
         countryInfo
-          .append("text")
-          .classed("hide", true)
-          .style("text-anchor", "middle")
-          .attr("dx", 0)
-          .attr("dy", 0)
-          .attr("transform", (country) => {
+          .append('text')
+          .classed('hide', true)
+          .style('text-anchor', 'middle')
+          .attr('dx', 0)
+          .attr('dy', 0)
+          .attr('transform', (country) => {
               return (
-                "translate(" + projection([country.longitude, country.latitude])[0] +
-                  "," + projection([country.longitude, country.latitude])[1] + ")"
+                'translate(' + projection([country.longitude, country.latitude])[0] +
+                  ',' + projection([country.longitude, country.latitude])[1] + ')'
               );
           })
           .text( (c) => {
@@ -93,30 +111,21 @@ export class GameScreenComponent implements OnInit {
           })
       });
   }
-
-  onHover(d) {
-
-    const country = mapData.testData.find((val) => {
-      return val.countryCodeIso2 === d.properties.ISO_A2
-    });
-    tooltipTest.classed('hide', false);
-    if (country) {
-      tooltipTest.select('.countryName').text(country.country);
-      tooltipTest.select('.totalUsage').text(country.totalUsage);
-    } else {
-      tooltipTest.select('.countryName').text(d.properties.NAME);
-      tooltipTest.select('.totalUsage').text('');
-    }
-    tooltipTest
-      .style("top", (d3.event.layerY + 5) + "px")
-      .style("left", (d3.event.layerX + 5) + "px");
-  }
   playerConnected(player: any) {
     this.players.push(player);
+    console.log(this.players);
   }
 
-  receiveMapData(mapData: any) {
-    console.log(mapData);
+  receiveMapData(mapDataItem: any) {
+    console.log('receive map data', mapDataItem);
+    this.dataService.updateCount(mapDataItem);
+    // this.mapData = this.mapData.map((countryData:any) => {
+    //   if (Object.keys(mapDataItem)[0] == countryData.country) {
+    //     console.log(countryData);
+    //     countryData.totalUsage = countryData.totalUsage + Object.values(mapDataItem)[0];
+    //     console.log( Object.values(mapDataItem)[0]);
+    //   }
+    // });
   }
 
   sessionEnded(mapData: any) {

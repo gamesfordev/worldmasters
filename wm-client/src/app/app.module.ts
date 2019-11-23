@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StartScreenComponent } from './components/start-screen/start-screen.component';
 import { GameScreenComponent } from './components/game-screen/game-screen.component';
+import {DataService} from './service/data.service';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { GameScreenComponent } from './components/game-screen/game-screen.compon
     AppRoutingModule,
     SocketIoModule.forRoot(config)
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
