@@ -4,11 +4,7 @@ import { StartScreenComponent } from './components/start-screen/start-screen.com
 import { GameScreenComponent } from './components/game-screen/game-screen.component';
 
 
-const routes: Routes = [{
-  path: '',
-  redirectTo: 'start',
-  pathMatch: 'full'
-},
+const routes: Routes = [
 {
   path: 'start',
   component: StartScreenComponent

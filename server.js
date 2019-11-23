@@ -11,6 +11,8 @@ app.listen(httpPort, function(){
 
 socketServer.on('connection', (socket) => {
 
+    gameEngine.init(socketServer);
+
     socket.on('getSession', () => {
         socket.emit('receiveSession', gameEngine.getSession());
     });

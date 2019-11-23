@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import * as topojson from 'topojson';
 import * as d3 from 'd3';
 import * as mapData from './testData';
+import { Socket } from 'ngx-socket-io';
+import { Router } from '@angular/router';
 
 const width = 1200;
 const height = 800;
@@ -23,16 +25,21 @@ let g;
 export class GameScreenComponent implements OnInit {
 
   g: any;
+  sessionActive = true;
+  players = [];
   constructor() {
   }
   ngOnInit() {
-    this.loadData();
+	this.loadData();
+	this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
+    this.socket.on('receiveMapData', (mapData: any) => {this.receiveMapData(mapData)});
+    this.socket.on('sessionEnded', (mapData: any) => {this.sessionEnded(mapData)});
   }
 
   loadData() {
     tooltipTest = d3.select('#tooltip');
 
-      d3.json('/assets/topojson.json').then((data) => {
+    d3.json('/assets/topojson.json').then((data) => {
         const countries = topojson.feature(data, data.objects.ne_110m_admin_0_countries).features;
         console.log(countries);
 
@@ -103,6 +110,21 @@ export class GameScreenComponent implements OnInit {
     tooltipTest
       .style("top", (d3.event.layerY + 5) + "px")
       .style("left", (d3.event.layerX + 5) + "px");
+  }
+  playerConnected(player: any) {
+    this.players.push(player);
+  }
+
+  receiveMapData(mapData: any) {
+    console.log(mapData);
+  }
+
+  sessionEnded(mapData: any) {
+    this.sessionActive = false;
+  }
+
+  startAgain() {
+    this.router.navigate(['start']);
   }
 
   onExit(d) {

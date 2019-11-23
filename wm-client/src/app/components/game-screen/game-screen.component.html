@@ -4,3 +4,24 @@
       <div class="totalUsage"></div>
   </div>
 </div>
+<div class="game-screen">
+    <p>game-screen works!</p>
+    <div class="map"></div>
+    <div class="right">
+        <div class="leaderboard">
+            
+        </div>
+        <div class="stats">
+            <ul>
+                <li *ngFor="let player of players">{{player.name}} was joined from {{ player.country }}</li>
+            </ul>
+        </div>
+        <div *ngIf="sessionActive">
+            Ask others to join WorldMasters to increase your country's points
+        </div>
+        <div *ngIf="!sessionActive">
+            Session ended <button (click)="startAgain()">Start again</button>
+        </div>
+    </div>
+</div>
+
