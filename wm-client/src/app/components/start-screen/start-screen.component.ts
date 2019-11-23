@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router"
 import { Socket } from 'ngx-socket-io';
 
 @Component({
@@ -8,10 +9,35 @@ import { Socket } from 'ngx-socket-io';
 })
 export class StartScreenComponent implements OnInit {
 
-  constructor(private socket: Socket) { }
+  sessionObj = {};
+  requestingSession = true;
+
+  constructor(private socket: Socket, private router: Router) { }
 
   ngOnInit() {
-    this.socket.emit('start');
+   this.socket.emit('getSession'); 
+   this.socket.on('receiveSession', (session: any) => { 
+     this.receiveSession(session);
+   });
+  }
+
+  hasSession(): boolean {
+    return Object.keys(this.sessionObj).length > 0;
+  }
+
+  receiveSession(sessionObj: any) {
+    this.sessionObj = sessionObj;
+    this.requestingSession = false;
+    console.log("from server", sessionObj);
+  }
+
+  joinGame() {
+    let player = {
+      name: 'Anonymous Panda',
+      country: 'Sri Lanka'
+    };
+    this.socket.emit('connectPlayer', player);
+    this.router.navigate(['game']);
   }
 
 }

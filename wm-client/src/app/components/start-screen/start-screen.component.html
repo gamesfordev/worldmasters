@@ -1,1 +1,16 @@
-<p>start-screen works!</p>
+
+<div>
+    <p>start-screen works!</p>
+    <div *ngIf="requestingSession">
+        <span>Please wait..</span>
+    </div>
+
+    <div *ngIf="!requestingSession">
+        <div *ngIf="hasSession()">
+            <button (click)="joinGame()">Join current game!</button>
+        </div>
+        <div *ngIf="!hasSession()">
+            <button (click)="joinGame()">Start a new game!</button>
+        </div>
+    </div>
+</div>
