@@ -25,7 +25,8 @@
             "aot": false,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "topojson.json", "input": "src/", "output": "./assets/" }
             ],
             "styles": [
               "src/styles.less"
