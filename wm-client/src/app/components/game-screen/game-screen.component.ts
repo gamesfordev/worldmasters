@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-game-screen',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameScreenComponent implements OnInit {
 
-  constructor() { }
+  players = [];
+
+  constructor(private socket: Socket) { }
 
   ngOnInit() {
+    this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
+    this.socket.on('receiveMapData', (player: any) => {this.receiveMapData(player)});
+  }
+
+  playerConnected(player: any) {
+    this.players.push(player);
+  }
+
+  receiveMapData(mapData: any) {
+    console.log(mapData);
   }
 
 }
