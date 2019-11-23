@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-screen',
@@ -8,13 +9,15 @@ import { Socket } from 'ngx-socket-io';
 })
 export class GameScreenComponent implements OnInit {
 
+  sessionActive = true;
   players = [];
 
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket, private router: Router) { }
 
   ngOnInit() {
     this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
-    this.socket.on('receiveMapData', (player: any) => {this.receiveMapData(player)});
+    this.socket.on('receiveMapData', (mapData: any) => {this.receiveMapData(mapData)});
+    this.socket.on('sessionEnded', (mapData: any) => {this.sessionEnded(mapData)});
   }
 
   playerConnected(player: any) {
@@ -23,6 +26,14 @@ export class GameScreenComponent implements OnInit {
 
   receiveMapData(mapData: any) {
     console.log(mapData);
+  }
+
+  sessionEnded(mapData: any) {
+    this.sessionActive = false;
+  }
+
+  startAgain() {
+    this.router.navigate(['start']);
   }
 
 }
