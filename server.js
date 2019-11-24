@@ -3,7 +3,7 @@ const io = require('socket.io');
 
 const httpPort = process.env.PORT  ||5000;
 
-const socketPort = process.env.PORT + 1 || 5001;
+const socketPort = process.env.PORT|| 5001;
 const socketServer = io.listen(socketPort);
 const gameEngine = require('./game-engine');
 
