@@ -7,8 +7,7 @@
             </div>
         </div>
         <div  class="congrats" *ngIf="!sessionActive">
-            <img src="/assets/congrats.gif" >
-            <h2 class="congratsTest">Winning country is India</h2>
+            <h2 class="congratsTest">Winning country is {{won}}</h2>
         </div>
     </div>
     <div class="right col-lg-4">
@@ -21,13 +20,9 @@
                     <th>Country</th>
                     <th>Points</th>
                 </tr>
-                <tr>
-                    <td>Sri Lanka</td>
-                    <td>100</td>
-                </tr>
-                <tr>
-                    <td>India</td>
-                    <td>80</td>
+                <tr *ngFor="let item of scores">
+                    <td>{{item.country}}</td>
+                    <td>{{item.score}}</td>
                 </tr>
             </table>
             <div class="timer">

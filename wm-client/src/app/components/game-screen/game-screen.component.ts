@@ -31,8 +31,10 @@ export class GameScreenComponent implements OnInit {
   g: any;
   sessionActive = true;
   mapValues;
+  scores = [];
 
   timerText = "00:00";
+  won = "";
 
   players = [];
   constructor(private socket: Socket, 
@@ -225,9 +227,14 @@ export class GameScreenComponent implements OnInit {
   receiveMapData(mapDataItem: any) {
     console.log('receive map data', mapDataItem);
     this.dataService.updateCount(mapDataItem);
+    this.scores = Object.keys(mapDataItem).map(function(key) {
+      return {country: key, score: mapDataItem[key]};
+    });
+    this.won = this.scores[0].country;
   }
 
   sessionEnded(mapData: any) {
+
     this.sessionActive = false;
   }
 

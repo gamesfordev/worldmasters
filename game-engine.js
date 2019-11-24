@@ -1,5 +1,5 @@
 let gameEngine = {};
-const duration = 60000;
+const duration = 30000;
 let sessionObj = {};
 let socketRef = null;
 let socketServerRef = null;
@@ -24,7 +24,10 @@ gameEngine.getSession = () => {
 }
 
 gameEngine.stopSession = () => {
-    socketServerRef.sockets.emit('sessionEnded', sessionObj.mapData); // session is over. notify all clients 
+    let scores = Object.keys(sessionObj.mapData).map(function(key) {
+        return {country: key, score: sessionObj.mapData[key]};
+    }).sort((e) => (e.score - e.score));
+    socketServerRef.sockets.emit('sessionEnded', scores); // session is over. notify all clients 
     clearInterval(gameLoopInterval);
     sessionObj = {};
     console.log('INFO: Session ended..');
