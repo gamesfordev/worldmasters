@@ -1,17 +1,16 @@
 const  app = require('./app');
-const io = require('socket.io');
-const socketPort = 5001;
-const httpPort = 5000;
-const socketServer = io.listen(socketPort);
+const server = require('http').createServer(app); 
+const io = require('socket.io')(server);
+const port = process.env.PORT || 8080;
 const gameEngine = require('./game-engine');
 
-app.listen(httpPort, function(){
-  console.log(`INFO: Listening to ${httpPort}`);
+server.listen(port, function(){
+  console.log(`INFO: Listening to ${port}`);
 });
 
-socketServer.on('connection', (socket) => {
+io.on('connection', (socket) => {
 
-    gameEngine.init(socketServer);
+    gameEngine.init(io);
 
     socket.on('getSession', () => {
         socket.emit('receiveSession', gameEngine.getSession());
