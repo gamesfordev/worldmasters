@@ -1,8 +1,10 @@
 
 <div class="starter-box">
     <img src="../../../assets/logo.png"/>
-    <div *ngIf="requestingSession">
-        <span>Please wait..</span>
+    <div *ngIf="requestingSession" class="elements">
+        <div class="info">
+            <span>🤗 Please wait...</span>
+        </div>
     </div>
 
     <div *ngIf="!requestingSession" class="elements">
