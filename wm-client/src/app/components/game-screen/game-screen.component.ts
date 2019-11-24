@@ -49,8 +49,8 @@ export class GameScreenComponent implements OnInit {
       this.socket.on('receiveMapData', (mapData: any) => {
           this.receiveMapData(mapData)
       });
-      this.socket.on('sessionEnded', (mapData: any) => {
-          this.sessionEnded(mapData)
+      this.socket.on('sessionEnded', (scores: any) => {
+          this.sessionEnded(scores)
       });
       this.socket.on('timerTick', (timer: any) => {
           this.timerTick(timer)
@@ -243,12 +243,12 @@ export class GameScreenComponent implements OnInit {
               country: key,
               score: mapDataItem[key]
           };
-      });
-      this.won = this.scores[0].country;
+      }).sort((a, b) => (b.score - a.score)).slice(0, 5);
   }
 
-  sessionEnded(mapData: any) {
+  sessionEnded(scores: any) {
       this.sessionActive = false;
+      this.won = scores[0].country;
   }
 
   startAgain() {
@@ -271,6 +271,9 @@ export class GameScreenComponent implements OnInit {
       selBox.select();
       document.execCommand('copy');
       document.body.removeChild(selBox);
+      this.toastr.success('Copied to clipboard!', '', {
+        positionClass: 'toast-bottom-left'
+    });
   }
 
 }

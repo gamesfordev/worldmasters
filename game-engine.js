@@ -30,7 +30,7 @@ gameEngine.stopSession = () => {
     socketServerRef.sockets.emit('sessionEnded', scores); // session is over. notify all clients 
     clearInterval(gameLoopInterval);
     sessionObj = {};
-    console.log('INFO: Session ended..');
+    console.log('INFO: Session ended..', scores);
 }
 
 
