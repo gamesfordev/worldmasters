@@ -6,7 +6,7 @@ const socketServer = io.listen(socketPort);
 const gameEngine = require('./game-engine');
 
 app.listen(httpPort, function(){
-  console.log(`Listening to ${httpPort}`);
+  console.log(`INFO: Listening to ${httpPort}`);
 });
 
 socketServer.on('connection', (socket) => {

@@ -1,5 +1,5 @@
 let gameEngine = {};
-const duration = 10000;
+const duration = 60000;
 let sessionObj = {};
 let socketRef = null;
 let socketServerRef = null;
@@ -10,7 +10,7 @@ gameEngine.init = (server) => {
 }
 
 gameEngine.startSession = (socket) => {
-    console.log("Start session.");
+    console.log("INFO: Starting game session.");
     sessionObj.id = socket.id;
     sessionObj.start = new Date();
     sessionObj.end = new Date(new Date().getTime() + duration); 
@@ -27,11 +27,12 @@ gameEngine.stopSession = () => {
     socketServerRef.sockets.emit('sessionEnded', sessionObj.mapData); // session is over. notify all clients 
     clearInterval(gameLoopInterval);
     sessionObj = {};
+    console.log('INFO: Session ended..');
 }
 
 
 gameEngine.gameLoop = () => {
-    console.log('Game is running..');
+    console.log('INFO: Session is active..');
     socketServerRef.sockets.emit('timerTick', {
         diff: (sessionObj.end.getTime() - new Date().getTime()) / 1000,
         end: sessionObj.end.getTime()
@@ -56,6 +57,7 @@ gameEngine.connectPlayer = (socket, player) => {
     socketRef = socket;
     socketRef.broadcast.emit('playerConnected', player);
     socketServerRef.sockets.emit('receiveMapData', sessionObj.mapData); // broadcast map data to  all 
+    console.log('INFO: Player connected. ', player, sessionObj.mapData);
 }
 
 gameEngine.disconnectPlayer = () => {
