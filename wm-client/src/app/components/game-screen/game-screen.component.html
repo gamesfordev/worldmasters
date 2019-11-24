@@ -6,6 +6,10 @@
                 <div class="totalUsage"></div>
             </div>
         </div>
+        <div  class="congrats" *ngIf="!sessionActive">
+            <img src="/assets/congrats.gif" >
+            <h2 class="congratsTest">Winning country is India</h2>
+        </div>
     </div>
     <div class="right col-lg-4">
         <div class="leaderboard">

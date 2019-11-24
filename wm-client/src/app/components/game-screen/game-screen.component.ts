@@ -215,6 +215,8 @@ export class GameScreenComponent implements OnInit {
   }
 
   playerConnected(player: any) {
+    console.log("player", player);
+    
     this.toastr.info(player.name + ' from ' + player.country + ' joined', '', {
       positionClass: 'toast-bottom-left'
     });
