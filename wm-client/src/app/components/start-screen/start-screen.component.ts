@@ -40,7 +40,7 @@ export class StartScreenComponent implements OnInit {
   joinGame() {
     let avatars = ['Anonymous Panda', 'Ginger Cat', 'White Fox', 'Anonymous Dolphin', 'Quick Fox', 'Anonymous Elephant'];
     let player = {
-      name: avatars[parseInt(Math.random() * 10000) % avatars.length],
+      name: avatars[Math.floor(Math.random() * 10000) % avatars.length],
       country: this.country
     };
     this.socket.emit('connectPlayer', player);
