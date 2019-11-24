@@ -239,7 +239,7 @@ export class GameScreenComponent implements OnInit {
   }
 
   startAgain() {
-    this.router.navigate(['start']);
+    this.router.navigate(['']);
   }
 
   onExit(d) {

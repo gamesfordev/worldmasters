@@ -6,7 +6,7 @@ import { GameScreenComponent } from './components/game-screen/game-screen.compon
 
 const routes: Routes = [
 {
-  path: 'start',
+  path: '',
   component: StartScreenComponent
 },
 {
