@@ -26,7 +26,7 @@ gameEngine.getSession = () => {
 gameEngine.stopSession = () => {
     let scores = Object.keys(sessionObj.mapData).map(function(key) {
         return {country: key, score: sessionObj.mapData[key]};
-    }).sort((e) => (e.score - e.score));
+    }).sort((a, b) => (b.score - a.score));
     socketServerRef.sockets.emit('sessionEnded', scores); // session is over. notify all clients 
     clearInterval(gameLoopInterval);
     sessionObj = {};
