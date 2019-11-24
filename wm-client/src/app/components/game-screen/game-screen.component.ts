@@ -6,7 +6,7 @@ import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import {DataService} from 'src/app/service/data.service';
 
-const width = 1200;
+const width = 800;
 const height = 800;
 let tooltipTest: any;
 const projection = d3.geoMercator()
@@ -138,6 +138,24 @@ export class GameScreenComponent implements OnInit {
 
   onExit(d) {
     tooltipTest.classed('hide', true);
+  }
+
+  copyUrlClick() {
+    this.copyMessage('http://localhost:4200');
+  }
+
+  copyMessage(val: string){
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 
 }

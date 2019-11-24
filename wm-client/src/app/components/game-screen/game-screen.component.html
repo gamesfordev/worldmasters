@@ -1,27 +1,32 @@
-<div id="map">
-  <div id="tooltip" class="hide">
-      <div class="countryName"></div>
-      <div class="totalUsage"></div>
-  </div>
-</div>
-<div class="game-screen">
-    <p>game-screen works!</p>
-    <div class="map"></div>
-    <div class="right">
+<div class="game-screen row">
+    <div class="map col-lg-8">
+        <div id="map">
+            <div id="tooltip" class="hide">
+                <div class="countryName"></div>
+                <div class="totalUsage"></div>
+            </div>
+        </div>
+    </div>
+    <div class="right col-lg-4">
         <div class="leaderboard">
-            
+
         </div>
         <div class="stats">
             <ul>
                 <li *ngFor="let player of players">{{player.name}} was joined from {{ player.country }}</li>
             </ul>
         </div>
-        <div *ngIf="sessionActive">
-            Ask others to join WorldMasters to increase your country's points
+        <div *ngIf="sessionActive" class="elements">
+            <div class="info">
+                <span>Ask others to join WorldMasters to increase your country's points</span>
+            </div>
+            <button class="btn btn-primary" (click)="copyUrlClick()">Copy game link</button>
         </div>
         <div *ngIf="!sessionActive">
-            Session ended <button (click)="startAgain()">Start again</button>
+            <div class="info">
+                <span>Current game session was ended.</span>
+            </div>
+            <button class="btn btn-primary" (click)="startAgain()">Go to main menu!</button>
         </div>
     </div>
 </div>
-
