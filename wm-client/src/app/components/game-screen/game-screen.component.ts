@@ -256,7 +256,7 @@ export class GameScreenComponent implements OnInit {
   }
 
   copyUrlClick() {
-      this.copyMessage('http://localhost:4200');
+      this.copyMessage(location.origin);
   }
 
   copyMessage(val: string) {
