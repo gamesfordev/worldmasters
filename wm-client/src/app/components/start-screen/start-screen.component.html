@@ -1,16 +1,22 @@
 
-<div>
-    <p>start-screen works!</p>
+<div class="starter-box">
+    <img src="../../../assets/logo.png"/>
     <div *ngIf="requestingSession">
         <span>Please wait..</span>
     </div>
 
-    <div *ngIf="!requestingSession">
+    <div *ngIf="!requestingSession" class="elements">
         <div *ngIf="hasSession()">
-            <button (click)="joinGame()">Join current game!</button>
+            <div class="info">
+                <span>💡 There is a running WorldMasters challenge right now.</span>
+            </div>
+            <button class="btn btn-primary" (click)="joinGame()">Join current game!</button>
         </div>
         <div *ngIf="!hasSession()">
-            <button (click)="joinGame()">Start a new game!</button>
+            <div class="info">
+                <span>💡 No WorldMasters challenge running right now.</span>
+            </div>
+            <button class="btn btn-primary" (click)="joinGame()">Start a new game!</button>
         </div>
     </div>
 </div>
