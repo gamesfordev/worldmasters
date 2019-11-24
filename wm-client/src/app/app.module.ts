@@ -7,7 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StartScreenComponent } from './components/start-screen/start-screen.component';
 import { GameScreenComponent } from './components/game-screen/game-screen.component';
-import {DataService} from './service/data.service';
+import { DataService } from './service/data.service';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {DataService} from './service/data.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    ToastrModule.forRoot()
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

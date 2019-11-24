@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { Socket } from 'ngx-socket-io';
 import { Router } from '@angular/router';
 import {DataService} from 'src/app/service/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 const width = 800;
 const height = 800;
@@ -31,7 +32,10 @@ export class GameScreenComponent implements OnInit {
   timerText = "00:00";
 
   players = [];
-  constructor(private socket: Socket, private router: Router, private dataService: DataService) { }
+  constructor(private socket: Socket, 
+    private router: Router, 
+    private dataService: DataService,
+    private toastr: ToastrService) { }
   ngOnInit() {
       this.loadData();
       this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
@@ -120,8 +124,9 @@ export class GameScreenComponent implements OnInit {
       });
   }
   playerConnected(player: any) {
-    this.players.push(player);
-    console.log(this.players);
+    this.toastr.info(player.name + ' from ' + player.country + ' joined', '', {
+      positionClass: 'toast-bottom-left'
+    });
   }
 
   receiveMapData(mapDataItem: any) {
