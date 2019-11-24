@@ -28,6 +28,8 @@ export class GameScreenComponent implements OnInit {
   sessionActive = true;
   mapValues;
 
+  timerText = "00:00";
+
   players = [];
   constructor(private socket: Socket, private router: Router, private dataService: DataService) { }
   ngOnInit() {
@@ -35,6 +37,12 @@ export class GameScreenComponent implements OnInit {
       this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
       this.socket.on('receiveMapData', (mapData: any) => {this.receiveMapData(mapData)});
       this.socket.on('sessionEnded', (mapData: any) => {this.sessionEnded(mapData)});
+      this.socket.on('timerTick', (timer: any) => {this.timerTick(timer)});
+  }
+
+  timerTick(timer: any) {
+    if(timer.diff >= 0 )
+      this.timerText = (parseInt(timer.diff) / 60).toFixed(0).toString().padStart(2, '0') + ':' + (parseInt(timer.diff) % 60).toFixed(0).toString().padStart(2, '0')
   }
 
   loadData() {

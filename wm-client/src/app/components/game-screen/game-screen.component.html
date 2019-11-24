@@ -17,12 +17,29 @@
             </ul>
         </div>
         <div *ngIf="sessionActive" class="elements">
+            <table class="table table-dark">
+                <tr>
+                    <th>Country</th>
+                    <th>Points</th>
+                </tr>
+                <tr>
+                    <td>Sri Lanka</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>India</td>
+                    <td>80</td>
+                </tr>
+            </table>
+            <div class="timer">
+                {{ this.timerText }}
+            </div>
             <div class="info">
                 <span>Ask others to join WorldMasters to increase your country's points</span>
             </div>
             <button class="btn btn-primary" (click)="copyUrlClick()">Copy game link</button>
         </div>
-        <div *ngIf="!sessionActive">
+        <div *ngIf="!sessionActive" class="elements">
             <div class="info">
                 <span>Current game session was ended.</span>
             </div>
