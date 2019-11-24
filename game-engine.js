@@ -1,5 +1,5 @@
 let gameEngine = {};
-const duration = 30000;
+const duration = 300000;
 let sessionObj = {};
 let socketRef = null;
 let socketServerRef = null;
