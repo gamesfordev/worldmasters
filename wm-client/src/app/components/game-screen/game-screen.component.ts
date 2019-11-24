@@ -42,7 +42,7 @@ export class GameScreenComponent implements OnInit {
       private toastr: ToastrService) {}
   ngOnInit() {
       // this.sessionActive = false;
-      this.loadMap();
+     
       this.socket.on('playerConnected', (player: any) => {
           this.playerConnected(player)
       });
@@ -150,7 +150,10 @@ export class GameScreenComponent implements OnInit {
           .range(["rgb(3,19,43)", "rgb(8,48,107)", "rgb(8,81,156)", "rgb(33,113,181)", "rgb(66,146,198)", "rgb(107,174,214)", "rgb(158,202,225)", "rgb(198,219,239)", "rgb(222,235,247)", "rgb(247,251,255)"]);
 
       var path = d3.geoPath();
-
+      var svg = d3.select("svg > g");
+    if(!svg.empty()){
+        d3.select("svg").remove();
+     }
       var svg = d3.select("#map")
           .append("svg")
           .attr("width", width)
@@ -237,6 +240,7 @@ export class GameScreenComponent implements OnInit {
   receiveMapData(mapDataItem: any) {
       // assuming data is as such -- mapDataItem = {"Sri Lanka": 1,"India":2 };
       // console.log('receive map data', mapDataItem);
+      console.log("score count");
       this.dataService.updateCount(mapDataItem);
       this.scores = Object.keys(mapDataItem).map(function(key) {
           return {
@@ -244,6 +248,7 @@ export class GameScreenComponent implements OnInit {
               score: mapDataItem[key]
           };
       }).sort((a, b) => (b.score - a.score)).slice(0, 5);
+      this.loadMap();
   }
 
   sessionEnded(scores: any) {
