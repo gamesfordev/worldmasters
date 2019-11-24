@@ -1,11 +1,12 @@
 <div class="game-screen row">
+  
     <div class="map col-lg-8">
+      <div>
         <div [hidden]="!sessionActive" id="map">
-            <div id="tooltip" class="hide">
-                <div class="countryName"></div>
-                <div class="totalUsage"></div>
-            </div>
         </div>
+      </div>
+       
+      
         <div  class="congrats" *ngIf="!sessionActive">
             <h2 class="congratsTest">Winning country is {{won}}</h2>
         </div>
