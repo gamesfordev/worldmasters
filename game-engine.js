@@ -32,6 +32,10 @@ gameEngine.stopSession = () => {
 
 gameEngine.gameLoop = () => {
     console.log('Game is running..');
+    socketServerRef.sockets.emit('timerTick', {
+        diff: (sessionObj.end.getTime() - new Date().getTime()) / 1000,
+        end: sessionObj.end.getTime()
+    });
     if(sessionObj.end.getTime() <= new Date().getTime()) {
         gameEngine.stopSession();
     }
