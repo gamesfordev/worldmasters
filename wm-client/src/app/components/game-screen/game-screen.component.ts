@@ -237,6 +237,7 @@ export class GameScreenComponent implements OnInit {
   receiveMapData(mapDataItem: any) {
       // assuming data is as such -- mapDataItem = {"Sri Lanka": 1,"India":2 };
       // console.log('receive map data', mapDataItem);
+      mapDataItem = {"Sri Lanka": 500,"India":20000 };
       this.dataService.updateCount(mapDataItem);
       this.scores = Object.keys(mapDataItem).map(function(key) {
           return {
