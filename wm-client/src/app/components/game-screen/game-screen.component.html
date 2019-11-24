@@ -1,6 +1,6 @@
 <div class="game-screen row">
     <div class="map col-lg-8">
-        <div id="map">
+        <div [hidden]="!sessionActive" id="map">
             <div id="tooltip" class="hide">
                 <div class="countryName"></div>
                 <div class="totalUsage"></div>

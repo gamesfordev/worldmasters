@@ -24,7 +24,7 @@ let g;
   selector: 'app-game-screen',
   templateUrl: './game-screen.component.html',
   styleUrls: ['./game-screen.component.less'],
-  encapsulation: ViewEncapsulation.Emulated
+  encapsulation: ViewEncapsulation.None
 })
 export class GameScreenComponent implements OnInit {
 
@@ -40,6 +40,7 @@ export class GameScreenComponent implements OnInit {
     private dataService: DataService,
     private toastr: ToastrService) { }
   ngOnInit() {
+      // this.sessionActive = false;
       this.loadData();
       this.socket.on('playerConnected', (player: any) => {this.playerConnected(player)});
       this.socket.on('receiveMapData', (mapData: any) => {this.receiveMapData(mapData)});
@@ -54,9 +55,6 @@ export class GameScreenComponent implements OnInit {
 
   loadData() {
     tooltipTest = d3.select('#tooltip');
-    let color = d3.scaleThreshold()
-    .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000000])
-    .range(["rgb(247,251,255)", "rgb(222,235,247)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)"]);
 
     d3.json('/assets/topojson.json').then((data) => {
         const countries = topojson.feature(data, data.objects.ne_110m_admin_0_countries).features;
@@ -225,13 +223,6 @@ export class GameScreenComponent implements OnInit {
   receiveMapData(mapDataItem: any) {
     console.log('receive map data', mapDataItem);
     this.dataService.updateCount(mapDataItem);
-    // this.mapData = this.mapData.map((countryData:any) => {
-    //   if (Object.keys(mapDataItem)[0] == countryData.country) {
-    //     console.log(countryData);
-    //     countryData.totalUsage = countryData.totalUsage + Object.values(mapDataItem)[0];
-    //     console.log( Object.values(mapDataItem)[0]);
-    //   }
-    // });
   }
 
   sessionEnded(mapData: any) {
