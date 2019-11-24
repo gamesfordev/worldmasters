@@ -16,7 +16,7 @@ var io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
 
-    gameEngine.init(socketServer);
+    gameEngine.init(io);
 
     socket.on('getSession', () => {
         socket.emit('receiveSession', gameEngine.getSession());
