@@ -11,7 +11,6 @@ constructor() {
 
 public updateCount(mapDataItem: any) {
   this.mapData.map((countryData: any) => {
-    console.log(countryData);
       Object.keys(mapDataItem).map((data:any, i:number)=> {
         if(data == countryData.name){
           countryData.population = Object.values(mapDataItem)[i];
