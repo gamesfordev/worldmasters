@@ -9,6 +9,8 @@ import { StartScreenComponent } from './components/start-screen/start-screen.com
 import { GameScreenComponent } from './components/game-screen/game-screen.component';
 import { DataService } from './service/data.service';
 import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 @NgModule({
@@ -20,6 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     SocketIoModule.forRoot(config),
     ToastrModule.forRoot()
   ],
