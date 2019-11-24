@@ -9,7 +9,7 @@ import {DataService} from 'src/app/service/data.service';
 import { ToastrService } from 'ngx-toastr';
 // import {readSync} from "fs";
 // d3.tip = require("d3-tip");
-const width = 1200;
+const width = window.screen.availWidth - 500;
 const height = 800;
 let tooltipTest: any;
 const projection = d3.geoMercator()
